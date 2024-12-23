@@ -44,7 +44,9 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
     }
 
     protected void onSlotChangedState(int slotId, int handlerId, boolean newState) {
-        if (this.client == null || this.client.world == null) return;
+        if (this.client == null || this.client.world == null) {
+            return;
+        }
 
         PacketByteBuf buf = PacketByteBufs.create();
             buf.writeInt(slotId);
@@ -57,27 +59,26 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
     protected void onMouseClick(Slot slot, int slotId, int button, SlotActionType actionType) {
         if (this.player.isSpectator()) {
             super.onMouseClick(slot, slotId, button, actionType);
-        } else {
-            if (slotId > -1 && slotId < 9 && slot instanceof CrafterInputSlot) {
-                if (slot.hasStack()) {
-                    super.onMouseClick(slot, slotId, button, actionType);
-                    return;
-                }
+        }
 
-                boolean bl = this.handler.isSlotDisabled(slotId);
-                if (bl || this.handler.getCursorStack().isEmpty()) {
-                    this.handler.setSlotEnabled(slotId, bl);
-                    this.onSlotChangedState(slotId, this.handler.syncId, bl);
-                    if (bl) {
-                        this.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, 1.0F);
-                    } else {
-                        this.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, 0.75F);
-                    }
-                }
+        if (slotId > -1 && slotId < 9 && slot instanceof CrafterInputSlot) {
+            if (slot.hasStack()) {
+                super.onMouseClick(slot, slotId, button, actionType);
+                return;
             }
 
-            super.onMouseClick(slot, slotId, button, actionType);
+            boolean bl = this.handler.isSlotDisabled(slotId);
+            if (bl || this.handler.getCursorStack().isEmpty()) {
+                this.handler.setSlotEnabled(slotId, bl);
+                this.onSlotChangedState(slotId, this.handler.syncId, bl);
+                if (bl) {
+                    this.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, 1.0F);
+                } else {
+                    this.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, 0.75F);
+                }
+            }
         }
+        super.onMouseClick(slot, slotId, button, actionType);
     }
 
     public void drawDisabledSlot(DrawContext context, CrafterInputSlot slot) {
@@ -90,10 +91,10 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
         super.render(context, mouseX, mouseY, delta);
         this.drawArrowTexture(context);
         this.drawMouseoverTooltip(context, mouseX, mouseY);
+
         if (this.focusedSlot instanceof CrafterInputSlot && !this.handler.isSlotDisabled(this.focusedSlot.id) && this.handler.getCursorStack().isEmpty() && !this.focusedSlot.hasStack()) {
             context.drawTooltip(this.textRenderer, TOGGLEABLE_SLOT_TEXT, mouseX, mouseY);
         }
-
     }
 
     private void drawArrowTexture(DrawContext context) {

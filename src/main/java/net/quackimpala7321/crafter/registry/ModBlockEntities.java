@@ -5,6 +5,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.quackimpala7321.crafter.AutocrafterEarly;
 import net.quackimpala7321.crafter.block.entity.CrafterBlockEntity;
 
 public class ModBlockEntities {
@@ -14,5 +15,7 @@ public class ModBlockEntities {
         FabricBlockEntityTypeBuilder.create(CrafterBlockEntity::new, ModBlocks.CRAFTER).build()
     );
 
-    public static void registerBlockEntities() {}
+    public static void registerBlockEntities() {
+        AutocrafterEarly.LOGGER.info("Registering block entities for "+AutocrafterEarly.MOD_ID);
+    }
 }

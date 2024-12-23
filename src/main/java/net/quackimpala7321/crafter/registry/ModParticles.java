@@ -10,5 +10,7 @@ import net.quackimpala7321.crafter.AutocrafterEarly;
 public class ModParticles {
     public static final DefaultParticleType WHITE_SMOKE = Registry.register(Registries.PARTICLE_TYPE, new Identifier(AutocrafterEarly.MOD_ID, "white_smoke"), FabricParticleTypes.simple(false));
 
-    public static void registerParticles() {}
+    public static void registerParticles() {
+        AutocrafterEarly.LOGGER.info("Registering particles for "+AutocrafterEarly.MOD_ID);
+    }
 }

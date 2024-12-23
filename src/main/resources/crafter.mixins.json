@@ -1,11 +1,9 @@
 {
-  "required": true,
-  "package": "net.quackimpala7321.crafter.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "ItemScattererMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-	}
+    "required": true,
+    "package": "net.quackimpala7321.crafter.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [],
+    "injectors": {
+        "defaultRequire": 1
+    }
 }

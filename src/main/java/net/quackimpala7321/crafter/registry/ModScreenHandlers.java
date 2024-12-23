@@ -15,5 +15,7 @@ public class ModScreenHandlers {
         new ExtendedScreenHandlerType<>(CrafterScreenHandler::new)
     );
 
-    public static void registerScreenHandlers() {}
+    public static void registerScreenHandlers() {
+        AutocrafterEarly.LOGGER.info("Registering screen handlers for "+AutocrafterEarly.MOD_ID);
+    }
 }

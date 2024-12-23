@@ -62,7 +62,6 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
                 } else {
                     this.disabledSlots[index] = value;
                 }
-
             }
 
             public int size() {
@@ -87,29 +86,29 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
     }
 
     public boolean isSlotDisabled(int slot) {
-        return slot >= 0
-                && slot < 9
-                && this.propertyDelegate.get(slot) == SLOT_DISABLED;
+        return slot >= 0 && slot < 9 && this.propertyDelegate.get(slot) == SLOT_DISABLED;
     }
 
     public boolean isValid(int slot, ItemStack stack) {
         if (this.propertyDelegate.get(slot) == SLOT_DISABLED) {
             return false;
-        } else {
-            ItemStack itemStack = this.inputStacks.get(slot);
-            int i = itemStack.getCount();
-            if (i >= itemStack.getMaxCount()) {
-                return false;
-            } else if (itemStack.isEmpty()) {
-                return true;
-            } else {
-                return !this.betterSlotExists(i, itemStack, slot);
-            }
         }
+
+        ItemStack itemStack = this.inputStacks.get(slot);
+        int i = itemStack.getCount();
+
+        if (i >= itemStack.getMaxCount()) {
+            return false;
+        }
+
+        if (itemStack.isEmpty()) {
+            return true;
+        }
+        return !this.betterSlotExists(i, itemStack, slot);
     }
 
     private boolean betterSlotExists(int count, ItemStack stack, int slot) {
-        for(int i = slot + 1; i < 9; ++i) {
+        for (int i = slot + 1; i < 9; ++i) {
             if (!this.isSlotDisabled(i)) {
                 ItemStack itemStack = this.getStack(i);
                 if (itemStack.isEmpty() || itemStack.getCount() < count && ItemStack.canCombine(itemStack, stack)) {
@@ -117,7 +116,6 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
                 }
             }
         }
-
         return false;
     }
 
@@ -125,21 +123,23 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         super.readNbt(nbt);
         this.craftingTicksRemaining = nbt.getInt("crafting_ticks_remaining");
         this.inputStacks = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
+
         if (!this.deserializeLootTable(nbt)) {
             Inventories.readNbt(nbt, this.inputStacks);
         }
 
         int[] is = nbt.getIntArray("disabled_slots");
 
-        for(int i = 0; i < 9; ++i) {
+        for (int i = 0; i < 9; ++i) {
             this.propertyDelegate.set(i, 0);
         }
 
         int[] var7 = is;
         int var4 = is.length;
 
-        for(int var5 = 0; var5 < var4; ++var5) {
+        for (int var5 = 0; var5 < var4; ++var5) {
             int j = var7[var5];
+
             if (this.canToggleSlot(j)) {
                 this.propertyDelegate.set(j, 1);
             }
@@ -151,6 +151,7 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         nbt.putInt("crafting_ticks_remaining", this.craftingTicksRemaining);
+
         if (!this.serializeLootTable(nbt)) {
             Inventories.writeNbt(nbt, this.inputStacks);
         }
@@ -180,11 +181,10 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
     }
 
     public boolean canPlayerUse(PlayerEntity player) {
-        if (this.world != null && this.world.getBlockEntity(this.pos) == this) {
-            return !(player.squaredDistanceTo((double)this.pos.getX() + 0.5, (double)this.pos.getY() + 0.5, (double)this.pos.getZ() + 0.5) > 64.0);
-        } else {
+        if (this.world == null || this.world.getBlockEntity(this.pos) != this) {
             return false;
         }
+        return !(player.squaredDistanceTo((double)this.pos.getX() + 0.5, (double)this.pos.getY() + 0.5, (double)this.pos.getZ() + 0.5) > 64.0);
     }
 
     @Override
@@ -210,7 +210,7 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
     }
 
     public void provideRecipeInputs(RecipeMatcher finder) {
-        for(ItemStack itemStack : this.inputStacks) {
+        for (ItemStack itemStack : this.inputStacks) {
             finder.addUnenchantedInput(itemStack);
         }
     }
@@ -218,7 +218,7 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
     private void putDisabledSlots(NbtCompound nbt) {
         IntList intList = new IntArrayList();
 
-        for(int i = 0; i < GRID_SIZE; ++i) {
+        for (int i = 0; i < GRID_SIZE; ++i) {
             if (this.isSlotDisabled(i)) {
                 intList.add(i);
             }
@@ -244,10 +244,10 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         int i = blockEntity.craftingTicksRemaining - 1;
         if (i >= 0) {
             blockEntity.craftingTicksRemaining = i;
+
             if (i == 0) {
                 world.setBlockState(pos, state.with(CrafterBlock.CRAFTING, false), 3);
             }
-
         }
     }
 
@@ -258,13 +258,13 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
     public int getComparatorOutput() {
         int i = 0;
 
-        for(int j = 0; j < this.size(); ++j) {
+        for (int j = 0; j < this.size(); ++j) {
             ItemStack itemStack = this.getStack(j);
+
             if (!itemStack.isEmpty() || this.isSlotDisabled(j)) {
                 ++i;
             }
         }
-
         return i;
     }
 

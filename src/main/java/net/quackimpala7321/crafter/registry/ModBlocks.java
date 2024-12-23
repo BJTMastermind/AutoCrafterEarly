@@ -8,6 +8,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.quackimpala7321.crafter.AutocrafterEarly;
 import net.quackimpala7321.crafter.block.CrafterBlock;
 
 public class ModBlocks {
@@ -25,5 +26,7 @@ public class ModBlocks {
         Registry.register(Registries.ITEM, id, new BlockItem(block, new FabricItemSettings()));
     }
 
-    public static void registerBlocks() {}
+    public static void registerBlocks() {
+        AutocrafterEarly.LOGGER.info("Registering blocks for "+AutocrafterEarly.MOD_ID);
+    }
 }

@@ -18,7 +18,10 @@ public class ModMessages {
 
             server.execute(() -> {
                 BlockEntity blockEntity = player.getWorld().getBlockEntity(pos);
-                if (!(blockEntity instanceof CrafterBlockEntity crafterBlockEntity)) return;
+
+                if (!(blockEntity instanceof CrafterBlockEntity crafterBlockEntity)) {
+                    return;
+                }
 
                 crafterBlockEntity.setSlotEnabled(slotId, newState);
             });

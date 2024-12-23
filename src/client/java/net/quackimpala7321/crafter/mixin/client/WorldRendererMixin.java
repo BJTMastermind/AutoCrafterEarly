@@ -30,7 +30,7 @@ public class WorldRendererMixin {
         double e = (double)pos.getY() + (double)j * 0.6 + 0.5;
         double f = (double)pos.getZ() + (double)k * 0.6 + 0.5;
 
-        for(int l = 0; l < 10; ++l) {
+        for (int l = 0; l < 10; ++l) {
             double g = random.nextDouble() * 0.2 + 0.01;
             double h = d + (double)i * 0.01 + (random.nextDouble() - 0.5) * (double)k * 0.5;
             double m = e + (double)j * 0.01 + (random.nextDouble() - 0.5) * (double)j * 0.5;
@@ -40,32 +40,35 @@ public class WorldRendererMixin {
             double q = (double)k * g + random.nextGaussian() * 0.01;
             _acc.invokeAddParticle(particleType, h, m, n, o, p, q);
         }
-
     }
 
     @Inject(method = "processWorldEvent", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
     private void addSoundWorldEvents(int eventId, BlockPos pos, int data, CallbackInfo ci, Random random) {
-        if (_acc.getWorld() == null) return;
+        if (_acc.getWorld() == null) {
+            return;
+        }
+
         switch (eventId) {
             case ModWorldEvents.CRAFTER_CRAFTS: {
                 _acc.getWorld().playSound(
-                        pos.getX(), pos.getY(), pos.getZ(),
-                        ModSoundEvents.CRAFTER_CRAFT,
-                        SoundCategory.BLOCKS,
-                        1f, 1f, true);
+                    pos.getX(), pos.getY(), pos.getZ(),
+                    ModSoundEvents.CRAFTER_CRAFT,
+                    SoundCategory.BLOCKS,
+                    1f, 1f, true
+                );
                 break;
             }
             case ModWorldEvents.CRAFTER_FAILS: {
                 _acc.getWorld().playSound(
-                        pos.getX(), pos.getY(), pos.getZ(),
-                        ModSoundEvents.CRAFTER_FAIL,
-                        SoundCategory.BLOCKS,
-                        1f, 1f, true);
+                    pos.getX(), pos.getY(), pos.getZ(),
+                    ModSoundEvents.CRAFTER_FAIL,
+                    SoundCategory.BLOCKS,
+                    1f, 1f, true
+                );
                 break;
             }
             case ModWorldEvents.CRAFTER_SHOOTS: {
-                shootParticles(
-                        data, pos, random, ModParticles.WHITE_SMOKE);
+                shootParticles(data, pos, random, ModParticles.WHITE_SMOKE);
                 break;
             }
         }

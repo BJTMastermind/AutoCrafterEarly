@@ -15,5 +15,7 @@ public class ModSoundEvents {
         return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
     }
 
-    public static void registerSounds() {}
+    public static void registerSounds() {
+        AutocrafterEarly.LOGGER.info("Registering sound events for "+AutocrafterEarly.MOD_ID);
+    }
 }

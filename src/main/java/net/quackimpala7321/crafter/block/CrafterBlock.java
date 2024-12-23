@@ -91,7 +91,10 @@ public class CrafterBlock extends BlockWithEntity {
         boolean powered = world.isReceivingRedstonePower(pos);
         boolean triggered = state.get(TRIGGERED);
 
-        if (!(world.getBlockEntity(pos) instanceof CrafterBlockEntity crafterBlockEntity)) return;
+        if (!(world.getBlockEntity(pos) instanceof CrafterBlockEntity crafterBlockEntity)) {
+            return;
+        }
+
         if (powered && !triggered) {
             world.scheduleBlockTick(pos, this, 1);
             world.setBlockState(pos, state.with(TRIGGERED, true), 2);
@@ -100,7 +103,6 @@ public class CrafterBlock extends BlockWithEntity {
             world.setBlockState(pos, state.with(TRIGGERED, false).with(CRAFTING, false), 2);
             this.setTriggered(crafterBlockEntity, false);
         }
-
     }
 
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
@@ -116,7 +118,6 @@ public class CrafterBlock extends BlockWithEntity {
         if (blockEntity instanceof CrafterBlockEntity crafterBlockEntity) {
             crafterBlockEntity.setTriggered(triggered);
         }
-
     }
 
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -139,8 +140,9 @@ public class CrafterBlock extends BlockWithEntity {
 
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
         if (itemStack.hasCustomName()) {
-            BlockEntity var7 = world.getBlockEntity(pos);
-            if (var7 instanceof CrafterBlockEntity crafterBlockEntity) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+
+            if (blockEntity instanceof CrafterBlockEntity crafterBlockEntity) {
                 crafterBlockEntity.setCustomName(itemStack.getName());
             }
         }
@@ -148,7 +150,6 @@ public class CrafterBlock extends BlockWithEntity {
         if (state.get(TRIGGERED)) {
             world.scheduleBlockTick(pos, this, 1);
         }
-
     }
 
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
@@ -170,7 +171,9 @@ public class CrafterBlock extends BlockWithEntity {
 
     protected void craft(BlockState state, ServerWorld world, BlockPos pos) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (!(blockEntity instanceof CrafterBlockEntity crafterBlockEntity)) return;
+        if (!(blockEntity instanceof CrafterBlockEntity crafterBlockEntity)) {
+            return;
+        }
 
         Optional<CraftingRecipe> optional = getCraftingRecipe(world, crafterBlockEntity);
         if (optional.isEmpty()) {
@@ -178,14 +181,19 @@ public class CrafterBlock extends BlockWithEntity {
         } else {
             crafterBlockEntity.setCraftingTicksRemaining(6);
             world.setBlockState(pos, state.with(CRAFTING, true), 2);
+
             CraftingRecipe craftingRecipe = optional.get();
             ItemStack itemStack = craftingRecipe.craft(crafterBlockEntity, world.getRegistryManager());
+
             this.transferOrSpawnStack(world, pos, crafterBlockEntity, itemStack, state);
+
             craftingRecipe.getRemainder(crafterBlockEntity).forEach((stack) ->
-                    this.transferOrSpawnStack(world, pos, crafterBlockEntity, stack, state));
+                this.transferOrSpawnStack(world, pos, crafterBlockEntity, stack, state));
+
             crafterBlockEntity.getInvStackList().stream()
-                    .filter(invStack -> !invStack.isEmpty())
-                    .forEach(invStack -> invStack.decrement(1));
+                .filter(invStack -> !invStack.isEmpty())
+                .forEach(invStack -> invStack.decrement(1));
+
             crafterBlockEntity.markDirty();
         }
     }
@@ -198,10 +206,12 @@ public class CrafterBlock extends BlockWithEntity {
         Direction direction = state.get(ORIENTATION).getFacing();
         Inventory inventory = HopperBlockEntity.getInventoryAt(world, pos.offset(direction));
         ItemStack itemStack = stack.copy();
+
         if (inventory instanceof CrafterBlockEntity) {
-            while(!itemStack.isEmpty()) {
+            while (!itemStack.isEmpty()) {
                 ItemStack itemStack2 = itemStack.copyWithCount(1);
                 ItemStack itemStack3 = HopperBlockEntity.transfer(blockEntity, inventory, itemStack2, direction.getOpposite());
+
                 if (!itemStack3.isEmpty()) {
                     break;
                 }
@@ -209,9 +219,10 @@ public class CrafterBlock extends BlockWithEntity {
                 itemStack.decrement(1);
             }
         } else if (inventory != null) {
-            while(!itemStack.isEmpty()) {
+            while (!itemStack.isEmpty()) {
                 int i = itemStack.getCount();
                 itemStack = HopperBlockEntity.transfer(blockEntity, inventory, itemStack, direction.getOpposite());
+
                 if (i == itemStack.getCount()) {
                     break;
                 }
@@ -221,10 +232,10 @@ public class CrafterBlock extends BlockWithEntity {
         if (!itemStack.isEmpty()) {
             Vec3d vec3d = Vec3d.ofCenter(pos).offset(direction, 0.7);
             ItemDispenserBehavior.spawnItem(world, itemStack, 6, direction, vec3d);
+
             world.syncWorldEvent(ModWorldEvents.CRAFTER_CRAFTS, pos, 0);
             world.syncWorldEvent(ModWorldEvents.CRAFTER_SHOOTS, pos, direction.getId());
         }
-
     }
 
     public BlockRenderType getRenderType(BlockState state) {
