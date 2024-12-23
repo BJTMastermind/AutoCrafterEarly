@@ -59,6 +59,7 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
     protected void onMouseClick(Slot slot, int slotId, int button, SlotActionType actionType) {
         if (this.player.isSpectator()) {
             super.onMouseClick(slot, slotId, button, actionType);
+            return;
         }
 
         if (slotId > -1 && slotId < 9 && slot instanceof CrafterInputSlot) {
