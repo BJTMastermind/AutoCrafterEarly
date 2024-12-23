@@ -43,6 +43,8 @@ import net.quackimpala7321.crafter.recipe.RecipeCache;
 import net.quackimpala7321.crafter.registry.ModBlockEntities;
 import net.quackimpala7321.crafter.registry.ModProperties;
 import net.quackimpala7321.crafter.registry.ModWorldEvents;
+import net.quackimpala7321.crafter.util.ItemScattererAccessor;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -152,6 +154,7 @@ public class CrafterBlock extends BlockWithEntity {
     }
 
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        ItemScattererAccessor.onStateReplaced(state, newState, world, pos);
         super.onStateReplaced(state, world, pos, newState, moved);
     }
 
