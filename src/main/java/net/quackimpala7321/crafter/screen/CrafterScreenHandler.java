@@ -104,11 +104,12 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
         if (slot2.hasStack()) {
             ItemStack itemStack2 = slot2.getStack();
             itemStack = itemStack2.copy();
-            if (slot < 9) {
-                if (!this.insertItem(itemStack2, 9, 45, true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (!this.insertItem(itemStack2, 0, 9, false)) {
+
+            if (slot < 9 && !this.insertItem(itemStack2, 9, 45, true)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (!this.insertItem(itemStack2, 0, 9, false)) {
                 return ItemStack.EMPTY;
             }
 
@@ -132,14 +133,16 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
     }
 
     private void updateResult() {
-        if (this.player instanceof ServerPlayerEntity serverPlayerEntity) {
-            World world = serverPlayerEntity.getWorld();
-
-            ItemStack itemStack = CrafterBlock.getCraftingRecipe(world, this.inputInventory).map((recipe) ->
-                    recipe.craft(this.inputInventory, world.getRegistryManager())).orElse(ItemStack.EMPTY);
-
-            this.resultInventory.setStack(0, itemStack);
+        if (!(this.player instanceof ServerPlayerEntity serverPlayerEntity)) {
+            return;
         }
+
+        World world = serverPlayerEntity.getWorld();
+
+        ItemStack itemStack = CrafterBlock.getCraftingRecipe(world, this.inputInventory).map((recipe) ->
+            recipe.craft(this.inputInventory, world.getRegistryManager())).orElse(ItemStack.EMPTY);
+
+        this.resultInventory.setStack(0, itemStack);
     }
 
     public Inventory getInputInventory() {

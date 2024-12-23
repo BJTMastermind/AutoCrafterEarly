@@ -26,18 +26,18 @@ public class WorldRendererMixin {
         int i = direction2.getOffsetX();
         int j = direction2.getOffsetY();
         int k = direction2.getOffsetZ();
-        double d = (double)pos.getX() + (double)i * 0.6 + 0.5;
-        double e = (double)pos.getY() + (double)j * 0.6 + 0.5;
-        double f = (double)pos.getZ() + (double)k * 0.6 + 0.5;
+        double d = (double) pos.getX() + (double) i * 0.6 + 0.5;
+        double e = (double) pos.getY() + (double) j * 0.6 + 0.5;
+        double f = (double) pos.getZ() + (double) k * 0.6 + 0.5;
 
         for (int l = 0; l < 10; ++l) {
             double g = random.nextDouble() * 0.2 + 0.01;
-            double h = d + (double)i * 0.01 + (random.nextDouble() - 0.5) * (double)k * 0.5;
-            double m = e + (double)j * 0.01 + (random.nextDouble() - 0.5) * (double)j * 0.5;
-            double n = f + (double)k * 0.01 + (random.nextDouble() - 0.5) * (double)i * 0.5;
-            double o = (double)i * g + random.nextGaussian() * 0.01;
-            double p = (double)j * g + random.nextGaussian() * 0.01;
-            double q = (double)k * g + random.nextGaussian() * 0.01;
+            double h = d + (double) i * 0.01 + (random.nextDouble() - 0.5) * (double) k * 0.5;
+            double m = e + (double) j * 0.01 + (random.nextDouble() - 0.5) * (double) j * 0.5;
+            double n = f + (double) k * 0.01 + (random.nextDouble() - 0.5) * (double) i * 0.5;
+            double o = (double) i * g + random.nextGaussian() * 0.01;
+            double p = (double) j * g + random.nextGaussian() * 0.01;
+            double q = (double) k * g + random.nextGaussian() * 0.01;
             _acc.invokeAddParticle(particleType, h, m, n, o, p, q);
         }
     }

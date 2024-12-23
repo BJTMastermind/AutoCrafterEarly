@@ -63,7 +63,7 @@ public class CrafterBlock extends BlockWithEntity {
     }
 
     protected static <B extends Block> RecordCodecBuilder<B, Settings> createSettingsCodec() {
-        return SETTINGS_CODEC.fieldOf("properties").forGetter(b -> ((AbstractBlockAccessor)b).getSettings());
+        return SETTINGS_CODEC.fieldOf("properties").forGetter(b -> ((AbstractBlockAccessor) b).getSettings());
     }
 
     public static <B extends Block> MapCodec<B> createCodec(Function<Settings, B> blockFromSettings) {
@@ -80,11 +80,10 @@ public class CrafterBlock extends BlockWithEntity {
 
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof CrafterBlockEntity crafterBlockEntity) {
-            return crafterBlockEntity.getComparatorOutput();
-        } else {
+        if (!(blockEntity instanceof CrafterBlockEntity crafterBlockEntity)) {
             return 0;
         }
+        return crafterBlockEntity.getComparatorOutput();
     }
 
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
@@ -178,24 +177,25 @@ public class CrafterBlock extends BlockWithEntity {
         Optional<CraftingRecipe> optional = getCraftingRecipe(world, crafterBlockEntity);
         if (optional.isEmpty()) {
             world.syncWorldEvent(ModWorldEvents.CRAFTER_FAILS, pos, 0);
-        } else {
-            crafterBlockEntity.setCraftingTicksRemaining(6);
-            world.setBlockState(pos, state.with(CRAFTING, true), 2);
-
-            CraftingRecipe craftingRecipe = optional.get();
-            ItemStack itemStack = craftingRecipe.craft(crafterBlockEntity, world.getRegistryManager());
-
-            this.transferOrSpawnStack(world, pos, crafterBlockEntity, itemStack, state);
-
-            craftingRecipe.getRemainder(crafterBlockEntity).forEach((stack) ->
-                this.transferOrSpawnStack(world, pos, crafterBlockEntity, stack, state));
-
-            crafterBlockEntity.getInvStackList().stream()
-                .filter(invStack -> !invStack.isEmpty())
-                .forEach(invStack -> invStack.decrement(1));
-
-            crafterBlockEntity.markDirty();
+            return;
         }
+
+        crafterBlockEntity.setCraftingTicksRemaining(6);
+        world.setBlockState(pos, state.with(CRAFTING, true), 2);
+
+        CraftingRecipe craftingRecipe = optional.get();
+        ItemStack itemStack = craftingRecipe.craft(crafterBlockEntity, world.getRegistryManager());
+
+        this.transferOrSpawnStack(world, pos, crafterBlockEntity, itemStack, state);
+
+        craftingRecipe.getRemainder(crafterBlockEntity).forEach((stack) ->
+            this.transferOrSpawnStack(world, pos, crafterBlockEntity, stack, state));
+
+        crafterBlockEntity.getInvStackList().stream()
+            .filter(invStack -> !invStack.isEmpty())
+            .forEach(invStack -> invStack.decrement(1));
+
+        crafterBlockEntity.markDirty();
     }
 
     public static Optional<CraftingRecipe> getCraftingRecipe(World world, RecipeInputInventory inputInventory) {

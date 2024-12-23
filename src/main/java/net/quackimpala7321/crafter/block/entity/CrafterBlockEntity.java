@@ -59,9 +59,9 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
             public void set(int index, int value) {
                 if (index == TRIGGERED_PROPERTY) {
                     this.triggered = value;
-                } else {
-                    this.disabledSlots[index] = value;
+                    return;
                 }
+                this.disabledSlots[index] = value;
             }
 
             public int size() {
@@ -109,11 +109,13 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
 
     private boolean betterSlotExists(int count, ItemStack stack, int slot) {
         for (int i = slot + 1; i < 9; ++i) {
-            if (!this.isSlotDisabled(i)) {
-                ItemStack itemStack = this.getStack(i);
-                if (itemStack.isEmpty() || itemStack.getCount() < count && ItemStack.canCombine(itemStack, stack)) {
-                    return true;
-                }
+            if (this.isSlotDisabled(i)) {
+                continue;
+            }
+
+            ItemStack itemStack = this.getStack(i);
+            if (itemStack.isEmpty() || itemStack.getCount() < count && ItemStack.canCombine(itemStack, stack)) {
+                return true;
             }
         }
         return false;
@@ -184,7 +186,7 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         if (this.world == null || this.world.getBlockEntity(this.pos) != this) {
             return false;
         }
-        return !(player.squaredDistanceTo((double)this.pos.getX() + 0.5, (double)this.pos.getY() + 0.5, (double)this.pos.getZ() + 0.5) > 64.0);
+        return !(player.squaredDistanceTo((double) this.pos.getX() + 0.5, (double) this.pos.getY() + 0.5, (double) this.pos.getZ() + 0.5) > 64.0);
     }
 
     @Override
