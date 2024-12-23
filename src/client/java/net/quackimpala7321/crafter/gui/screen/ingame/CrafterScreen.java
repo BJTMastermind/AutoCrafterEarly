@@ -81,7 +81,7 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
     }
 
     public void drawDisabledSlot(DrawContext context, CrafterInputSlot slot) {
-        context.drawTexture(DISABLED_SLOT_TEXTURE, slot.x - 1, slot.y - 1, 0, 0, 18, 18);
+        context.drawTexture(DISABLED_SLOT_TEXTURE, slot.x - 1, slot.y - 1, 0, 0, 18, 18, 18, 18);
     }
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
@@ -100,7 +100,7 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
         int i = this.width / 2 + 9;
         int j = this.height / 2 - 48;
 
-        context.drawTexture(this.handler.isTriggered() ? POWERED_REDSTONE_TEXTURE : UNPOWERED_REDSTONE_TEXTURE, i, j, 0, 0, 16, 16);
+        context.drawTexture(this.handler.isTriggered() ? POWERED_REDSTONE_TEXTURE : UNPOWERED_REDSTONE_TEXTURE, i, j, 0, 0, 16, 16, 16, 16);
     }
 
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {

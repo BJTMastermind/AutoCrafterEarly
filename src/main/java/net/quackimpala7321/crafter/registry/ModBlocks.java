@@ -8,7 +8,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.quackimpala7321.crafter.AutocrafterEarly;
 import net.quackimpala7321.crafter.block.CrafterBlock;
 
 public class ModBlocks {

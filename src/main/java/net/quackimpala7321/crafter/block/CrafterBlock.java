@@ -38,8 +38,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-import net.quackimpala7321.crafter.AutocrafterEarly;
-import net.quackimpala7321.crafter.util.ItemScattererAccessor;
 import net.quackimpala7321.crafter.block.entity.CrafterBlockEntity;
 import net.quackimpala7321.crafter.recipe.RecipeCache;
 import net.quackimpala7321.crafter.registry.ModBlockEntities;
@@ -51,11 +49,10 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class CrafterBlock extends BlockWithEntity {
-    public static final BooleanProperty CRAFTING;
-    public static final BooleanProperty TRIGGERED;
-    private static final EnumProperty<JigsawOrientation> ORIENTATION;
-    private static final int field_46802 = 6;
-    private static final RecipeCache recipeCache;
+    public static final BooleanProperty CRAFTING = ModProperties.CRAFTING;
+    public static final BooleanProperty TRIGGERED = Properties.TRIGGERED;
+    private static final EnumProperty<JigsawOrientation> ORIENTATION = Properties.ORIENTATION;
+    private static final RecipeCache recipeCache = new RecipeCache(10);
 
     private static final Codec<Settings> SETTINGS_CODEC = Codec.unit(Settings::new);
     public static final MapCodec<CrafterBlock> CODEC = createCodec(CrafterBlock::new);
@@ -155,7 +152,6 @@ public class CrafterBlock extends BlockWithEntity {
     }
 
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        ItemScattererAccessor.onStateReplaced(state, newState, world, pos);
         super.onStateReplaced(state, world, pos, newState, moved);
     }
 
@@ -245,12 +241,5 @@ public class CrafterBlock extends BlockWithEntity {
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(ORIENTATION, TRIGGERED, CRAFTING);
-    }
-
-    static {
-        CRAFTING = ModProperties.CRAFTING;
-        TRIGGERED = Properties.TRIGGERED;
-        ORIENTATION = Properties.ORIENTATION;
-        recipeCache = new RecipeCache(10);
     }
 }
