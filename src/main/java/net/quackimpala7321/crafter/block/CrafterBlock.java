@@ -97,7 +97,7 @@ public class CrafterBlock extends BlockWithEntity {
         }
 
         if (powered && !triggered) {
-            world.scheduleBlockTick(pos, this, 1);
+            world.scheduleBlockTick(pos, this, 4);
             world.setBlockState(pos, state.with(TRIGGERED, true), 2);
             this.setTriggered(crafterBlockEntity, true);
         } else if (!powered && triggered) {
@@ -149,7 +149,7 @@ public class CrafterBlock extends BlockWithEntity {
         }
 
         if (state.get(TRIGGERED)) {
-            world.scheduleBlockTick(pos, this, 1);
+            world.scheduleBlockTick(pos, this, 4);
         }
     }
 
