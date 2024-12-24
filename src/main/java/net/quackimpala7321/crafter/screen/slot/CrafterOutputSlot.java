@@ -16,8 +16,7 @@ public class CrafterOutputSlot extends Slot {
         super(inventory, i, j, k);
     }
 
-    public void onQuickTransfer(ItemStack newItem, ItemStack original) {
-    }
+    public void onQuickTransfer(ItemStack newItem, ItemStack original) {}
 
     public boolean canTakeItems(PlayerEntity playerEntity) {
         return false;
@@ -51,8 +50,7 @@ public class CrafterOutputSlot extends Slot {
         return ItemStack.EMPTY;
     }
 
-    public void onTakeItem(PlayerEntity player, ItemStack stack) {
-    }
+    public void onTakeItem(PlayerEntity player, ItemStack stack) {}
 
     public boolean canBeHighlighted() {
         return false;

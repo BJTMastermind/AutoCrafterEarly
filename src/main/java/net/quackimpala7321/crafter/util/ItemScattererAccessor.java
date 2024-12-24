@@ -1,4 +1,4 @@
-package net.quackimpala7321.crafter;
+package net.quackimpala7321.crafter.util;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -15,7 +15,6 @@ public interface ItemScattererAccessor {
                 ItemScatterer.spawn(world, pos, inventory);
                 world.updateComparators(pos, state.getBlock());
             }
-
         }
     }
 }

@@ -10,10 +10,12 @@ import net.quackimpala7321.crafter.block.entity.CrafterBlockEntity;
 
 public class ModBlockEntities {
     public static final BlockEntityType<CrafterBlockEntity> CRAFTER = Registry.register(
-            Registries.BLOCK_ENTITY_TYPE,
-            new Identifier("crafter"),
-            FabricBlockEntityTypeBuilder.create(CrafterBlockEntity::new, ModBlocks.CRAFTER).build()
+        Registries.BLOCK_ENTITY_TYPE,
+        new Identifier("crafter"),
+        FabricBlockEntityTypeBuilder.create(CrafterBlockEntity::new, ModBlocks.CRAFTER).build()
     );
 
-    public static void registerBlockEntities() {}
+    public static void registerBlockEntities() {
+        AutocrafterEarly.LOGGER.info("Registering block entities for "+AutocrafterEarly.MOD_ID);
+    }
 }

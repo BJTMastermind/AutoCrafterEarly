@@ -27,22 +27,21 @@ public class RecipeCache {
         this.cache = new CachedRecipe[size];
     }
 
-    public Optional<CraftingRecipe> getRecipe(World world, RecipeInputInventory inputInventory) {
+    public Optional<RecipeEntry<CraftingRecipe>> getRecipe(World world, RecipeInputInventory inputInventory) {
         if (inputInventory.isEmpty()) {
             return Optional.empty();
-        } else {
-            this.validateRecipeManager(world);
-
-            for(int i = 0; i < this.cache.length; ++i) {
-                CachedRecipe cachedRecipe = this.cache[i];
-                if (cachedRecipe != null && cachedRecipe.matches(inputInventory.getInputStacks())) {
-                    this.sendToFront(i);
-                    return Optional.ofNullable(cachedRecipe.craftingRecipe());
-                }
-            }
-
-            return this.getAndCacheRecipe(inputInventory, world);
         }
+        this.validateRecipeManager(world);
+
+        for (int i = 0; i < this.cache.length; ++i) {
+            CachedRecipe cachedRecipe = this.cache[i];
+
+            if (cachedRecipe != null && cachedRecipe.matches(inputInventory.getInputStacks())) {
+                this.sendToFront(i);
+                return Optional.ofNullable(cachedRecipe.craftingRecipe());
+            }
+        }
+        return this.getAndCacheRecipe(inputInventory, world);
     }
 
     private void validateRecipeManager(World world) {
@@ -51,13 +50,12 @@ public class RecipeCache {
             this.recipeManagerRef = new WeakReference<>(recipeManager);
             Arrays.fill(this.cache, null);
         }
-
     }
 
-    private Optional<CraftingRecipe> getAndCacheRecipe(RecipeInputInventory inputInventory, World world) {
+    private Optional<RecipeEntry<CraftingRecipe>> getAndCacheRecipe(RecipeInputInventory inputInventory, World world) {
         Optional<RecipeEntry<CraftingRecipe>> optional = world.getRecipeManager().getFirstMatch(RecipeType.CRAFTING, inputInventory, world);
-        this.cache(inputInventory.getInputStacks(), optional.map(RecipeEntry::value).orElse(null));
-        return optional.map(RecipeEntry::value);
+        this.cache(inputInventory.getInputStacks(), optional.orElse(null));
+        return optional;
     }
 
     private void sendToFront(int index) {
@@ -66,13 +64,12 @@ public class RecipeCache {
             System.arraycopy(this.cache, 0, this.cache, 1, index);
             this.cache[0] = cachedRecipe;
         }
-
     }
 
-    private void cache(List<ItemStack> inputStacks, @Nullable CraftingRecipe recipe) {
+    private void cache(List<ItemStack> inputStacks, @Nullable RecipeEntry<CraftingRecipe> recipe) {
         DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(inputStacks.size(), ItemStack.EMPTY);
 
-        for(int i = 0; i < inputStacks.size(); ++i) {
+        for (int i = 0; i < inputStacks.size(); ++i) {
             defaultedList.set(i, inputStacks.get(i).copyWithCount(1));
         }
 
@@ -80,20 +77,19 @@ public class RecipeCache {
         this.cache[0] = new CachedRecipe(defaultedList, recipe);
     }
 
-    record CachedRecipe(DefaultedList<ItemStack> defaultedList, @Nullable CraftingRecipe craftingRecipe) {
+    record CachedRecipe(DefaultedList<ItemStack> defaultedList, @Nullable RecipeEntry<CraftingRecipe> craftingRecipe) {
 
         public boolean matches(List<ItemStack> inputs) {
             if (this.defaultedList.size() != inputs.size()) {
                 return false;
-            } else {
-                for(int i = 0; i < this.defaultedList.size(); ++i) {
-                    if (!ItemStack.canCombine(this.defaultedList.get(i), inputs.get(i))) {
-                        return false;
-                    }
-                }
-
-                return true;
             }
+
+            for (int i = 0; i < this.defaultedList.size(); ++i) {
+                if (!ItemStack.canCombine(this.defaultedList.get(i), inputs.get(i))) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public DefaultedList<ItemStack> defaultedList() {
@@ -101,7 +97,7 @@ public class RecipeCache {
         }
 
         @Nullable
-        public CraftingRecipe craftingRecipe() {
+        public RecipeEntry<CraftingRecipe> craftingRecipe() {
             return this.craftingRecipe;
         }
     }

@@ -18,7 +18,9 @@ public class HandledScreenMixin {
 
     @Inject(method = "drawSlot", at = @At("HEAD"), cancellable = true)
     public void drawSlotMixin(DrawContext context, Slot slot, CallbackInfo ci) {
-        if (!(thisHandledScreen instanceof CrafterScreen thisCrafterScreen)) return;
+        if (!(thisHandledScreen instanceof CrafterScreen thisCrafterScreen)) {
+            return;
+        }
 
         if (slot instanceof CrafterInputSlot crafterInputSlot) {
             if (thisCrafterScreen.getScreenHandler().isSlotDisabled(slot.id)) {

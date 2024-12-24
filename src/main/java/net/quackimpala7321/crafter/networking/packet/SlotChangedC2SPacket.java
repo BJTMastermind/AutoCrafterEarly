@@ -16,14 +16,10 @@ public class SlotChangedC2SPacket implements Packet<ServerPlayPacketListener> {
     }
 
     @Override
-    public void write(PacketByteBuf buf) {
-
-    }
+    public void write(PacketByteBuf buf) {}
 
     @Override
-    public void apply(ServerPlayPacketListener listener) {
-
-    }
+    public void apply(ServerPlayPacketListener listener) {}
 
     public int getSlotId() {
         return this.slotId;

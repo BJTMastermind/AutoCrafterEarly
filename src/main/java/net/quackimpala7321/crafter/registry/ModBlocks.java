@@ -26,5 +26,7 @@ public class ModBlocks {
         Registry.register(Registries.ITEM, id, new BlockItem(block, new FabricItemSettings()));
     }
 
-    public static void registerBlocks() {}
+    public static void registerBlocks() {
+        AutocrafterEarly.LOGGER.info("Registering blocks for "+AutocrafterEarly.MOD_ID);
+    }
 }
