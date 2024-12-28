@@ -2,7 +2,6 @@
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
 //
-
 package net.quackimpala7321.crafter.block;
 
 import com.mojang.serialization.Codec;
@@ -128,15 +127,15 @@ public class CrafterBlock extends BlockWithEntity {
     }
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        Direction direction = ctx.getPlayerLookDirection().getOpposite();
+        Direction playerInverseLookDirection = ctx.getPlayerLookDirection().getOpposite();
 
-        Direction direction2 = switch (direction) {
+        Direction crafterDirection = switch (playerInverseLookDirection) {
             case DOWN -> ctx.getHorizontalPlayerFacing().getOpposite();
             case UP -> ctx.getHorizontalPlayerFacing();
             case NORTH, SOUTH, WEST, EAST -> Direction.UP;
             default -> throw new IncompatibleClassChangeError();
         };
-        return this.getDefaultState().with(ORIENTATION, JigsawOrientation.byDirections(direction, direction2)).with(TRIGGERED, ctx.getWorld().isReceivingRedstonePower(ctx.getBlockPos()));
+        return this.getDefaultState().with(ORIENTATION, JigsawOrientation.byDirections(playerInverseLookDirection, crafterDirection)).with(TRIGGERED, ctx.getWorld().isReceivingRedstonePower(ctx.getBlockPos()));
     }
 
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
@@ -153,6 +152,7 @@ public class CrafterBlock extends BlockWithEntity {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         ItemScattererAccessor.onStateReplaced(state, newState, world, pos);
         super.onStateReplaced(state, world, pos, newState, moved);

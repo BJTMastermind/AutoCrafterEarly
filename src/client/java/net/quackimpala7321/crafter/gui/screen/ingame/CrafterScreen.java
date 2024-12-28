@@ -2,7 +2,6 @@
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
 //
-
 package net.quackimpala7321.crafter.gui.screen.ingame;
 
 import net.fabricmc.api.EnvType;
@@ -68,15 +67,16 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
                 return;
             }
 
-            boolean bl = this.handler.isSlotDisabled(slotId);
-            if (bl || this.handler.getCursorStack().isEmpty()) {
-                this.handler.setSlotEnabled(slotId, bl);
-                this.onSlotChangedState(slotId, this.handler.syncId, bl);
-                if (bl) {
+            boolean slotDisabled = this.handler.isSlotDisabled(slotId);
+            if (slotDisabled || this.handler.getCursorStack().isEmpty()) {
+                this.handler.setSlotEnabled(slotId, slotDisabled);
+                this.onSlotChangedState(slotId, this.handler.syncId, slotDisabled);
+
+                if (slotDisabled) {
                     this.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, 1.0F);
-                } else {
-                    this.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, 0.75F);
+                    return;
                 }
+                this.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, 0.75F);
             }
         }
         super.onMouseClick(slot, slotId, button, actionType);
