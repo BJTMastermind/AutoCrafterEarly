@@ -1,6 +1,6 @@
-<img src="./src/main/resources/assets/crafter/icon.png" width="128">
+<img src="./src/main/resources/assets/crafter_backport/icon.png" width="128">
 
-# AutoCrafter Early
+# Crafter Backport
 
 This mod adds the Crafter block from the 1.21 update to **1.20.x**.
 
@@ -12,8 +12,20 @@ My implementation includes the tick cooldown change.
 
 ### Dependencies
 
-Autocrafter Early requires the Fabric Loader and Fabric API.
+Crafter Backport requires the Fabric Loader and Fabric API.
 
-### When this mod will lose support
+### What versions does this mod support
 
-When most mods are updated to 1.20.3, the Autocrafter Early mod will lose support. This is because it will no longer be needed with the **experimental toggle**.
+The mod currently supports the following versions:
+
+* 1.20.2
+* 1.20.1
+
+I also plan on adding support to the following versions:
+
+* 1.20.4 (For adding the crafter only without the other things from the experimental toggle.)
+* 1.20.3 (For adding the crafter only without the other things from the experimental toggle.)
+* 1.20
+* 1.18.x (All 1.18 versions)
+* 1.16.x (All 1.16 versions)
+* 1.12.2 (Using Ornithe, maybe a Forge version too.)

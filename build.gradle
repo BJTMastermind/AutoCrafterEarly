@@ -22,14 +22,13 @@ loom {
     splitEnvironmentSourceSets()
 
     mods {
-        "crafter" {
+        "crafter_backport" {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
         }
     }
 
-    accessWidenerPath = file("src/main/resources/crafter.accesswidener")
-
+    accessWidenerPath = file("src/main/resources/crafter_backport.accesswidener")
 }
 
 dependencies {

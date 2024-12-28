@@ -1,9 +1,0 @@
-{
-    "required": true,
-    "package": "net.quackimpala7321.crafter.mixin",
-    "compatibilityLevel": "JAVA_17",
-    "mixins": [],
-    "injectors": {
-        "defaultRequire": 1
-    }
-}
