@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AutocrafterEarly implements ModInitializer {
-    public static final String MOD_ID = "crafter";
+    public static final String MOD_ID = "crafter_backport";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     @Override
