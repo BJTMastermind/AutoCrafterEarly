@@ -1,0 +1,9 @@
+{
+    "required": true,
+    "package": "me.bjtmastermind.crafter_backport.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

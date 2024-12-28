@@ -12,20 +12,20 @@
         "sources": "https://github.com/BJTMastermind/AutocrafterEarly"
     },
     "license": "MIT",
-    "icon": "assets/crafter/icon.png",
+    "icon": "assets/crafter_backport/icon.png",
     "environment": "*",
     "entrypoints": {
         "main": [
-            "net.quackimpala7321.crafter.AutocrafterEarly"
+            "me.bjtmastermind.crafter_backport.CrafterBackport"
         ],
         "client": [
-            "net.quackimpala7321.crafter.AutocrafterEarlyClient"
+            "me.bjtmastermind.crafter_backport.CrafterBackportClient"
         ]
     },
     "mixins": [
-        "crafter.mixins.json",
+        "crafter_backport.mixins.json",
         {
-            "config": "crafter.client.mixins.json",
+            "config": "crafter_backport.client.mixins.json",
             "environment": "client"
         }
     ],
@@ -35,5 +35,5 @@
         "java": ">=17",
         "fabric-api": "*"
     },
-    "accessWidener": "crafter.accesswidener"
+    "accessWidener": "crafter_backport.accesswidener"
 }
