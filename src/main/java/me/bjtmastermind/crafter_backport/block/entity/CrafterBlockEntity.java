@@ -252,6 +252,10 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         }
     }
 
+    public int getCraftingTicksRemaining() {
+        return this.craftingTicksRemaining;
+    }
+
     public void setCraftingTicksRemaining(int craftingTicksRemaining) {
         this.craftingTicksRemaining = craftingTicksRemaining;
     }
