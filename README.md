@@ -20,12 +20,14 @@ The mod currently supports the following versions:
 
 * 1.20.2
 * 1.20.1
+* 1.20
 
 I also plan on adding support to the following versions:
 
+* 1.20.6 (For adding the crafter only without the other things from the experimental toggle.)
+* 1.20.5 (For adding the crafter only without the other things from the experimental toggle.)
 * 1.20.4 (For adding the crafter only without the other things from the experimental toggle.)
 * 1.20.3 (For adding the crafter only without the other things from the experimental toggle.)
-* 1.20
 * 1.18.x (All 1.18 versions)
 * 1.16.x (All 1.16 versions)
 * 1.12.2 (Using Ornithe, maybe a Forge version too.)

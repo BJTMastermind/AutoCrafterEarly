@@ -3,7 +3,7 @@
     "id": "crafter_backport",
     "version": "${version}",
     "name": "Crafter Backport",
-    "description": "Backports the crafter block from 1.21 to 1.20.1.",
+    "description": "Backports the crafter block from 1.21 to 1.20-1.20.1.",
     "authors": [
         "BJTMastermind (Maintainer of this fork of the mod, now called 'Crafter Backport')",
         "QuackImpala7321 (Original creator of this mod, formally known as 'AutoCrafter Early')"
@@ -31,7 +31,7 @@
     ],
     "depends": {
         "fabricloader": ">=0.16.9",
-        "minecraft": "~1.20.1",
+        "minecraft": ">=1.20 <=1.20.1",
         "java": ">=17",
         "fabric-api": "*"
     },
